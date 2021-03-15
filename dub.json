@@ -1,0 +1,13 @@
+{
+	"authors": [
+		"Eric Budd"
+	],
+	"copyright": "Copyright © 2021, Eric Budd",
+	"dependencies": {
+		"cli-d": "~>0.1.1"
+	},
+	"description": "A client for Iris, a serverless text-based forum.",
+	"homepage": "https://github.com/Calamitous/irised",
+	"license": "GPL-2.0",
+	"name": "irised"
+}
