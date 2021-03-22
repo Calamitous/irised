@@ -3,6 +3,7 @@ import std.array;
 import std.digest.crc;
 import std.format;
 import std.json;
+import std.stdio;
 
 JSONValue starter_data() {
   JSONValue jj = ["messages" : "none"];
@@ -85,6 +86,16 @@ class Message {
     return errors == [];
   }
 
+  void assign_required(JSONValue hash, ref string prop, string key) {
+    if (!(key in hash) || hash[key].isNull) {
+      prop = "";
+      auto error = key ~ " must be provided";
+      errors ~= error;
+    } else {
+      prop = hash[key].str;
+    }
+  }
+
   void assign_required(string[string] hash, ref string prop, string key) {
     if ((key in hash) is null) {
       prop = "";
@@ -103,8 +114,39 @@ class Message {
     }
   }
 
-  // TODO: this
-  this(JSONValue json) {}
+  void assign_optional(JSONValue hash, ref string prop, string key) {
+    if (!(key in hash) || hash[key].isNull) {
+      prop = "";
+    } else {
+      prop = hash[key].str;
+    }
+  }
+
+  this(JSONValue message_json) {
+    writeln("BEEP!");
+    assign_required(message_json["data"], message, "message");
+    assign_required(message_json["data"], author, "author");
+    assign_required(message_json["data"], timestamp, "timestamp");
+
+    assign_optional(message_json["data"], parent_hash, "parent");
+    assign_optional(message_json, edit_hash, "edit_hash");
+
+    // if (("is_deleted" in message_json) !is null && !message_json["is_deleted"].isNull) {
+    //   switch(message_json["is_deleted"].str) {
+    //     case "false":
+    //       is_deleted = false;
+    //       break;
+    //     case "true":
+    //       is_deleted = true;
+    //       break;
+    //     default:
+    //       is_deleted = false;
+    //       errors ~= "`is_deleted` must be one of: `true`, `false`";
+    //       break;
+    //   }
+    // }
+
+  }
 
   this(string[string] values) {
     errors = [];

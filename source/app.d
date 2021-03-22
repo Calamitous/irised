@@ -26,7 +26,9 @@ void main()
   }
 
   File message_file = load_message_file(config);
-  Corpus.find_message_files(config.home_root);
+  // Corpus.find_message_files(config.home_root);
+  Corpus corpus = new Corpus(config.home_root);
+  // writeln(corpus.messages);
 
   auto message_details = [
     "message": "foo",
@@ -35,15 +37,17 @@ void main()
     "parent_hash": "46A10927",
     "is_deleted": "bad"
   ];
+
   Message message = new Message(message_details);
-  writefln("%d", message);
+  // writefln("%d", message);
   // TODO: Fix this, even though it's handy for testing
   message.errors = [];
-  writefln("%d", message);
+  // writefln("%d", message);
 
   writeln("!--- RAN OKAY ---!");
 }
 
+// TODO: Classify this
 File load_message_file(Config config) {
   if (!config.message_file_name.exists) {
     File message_file = File(config.message_file_name, "a");
