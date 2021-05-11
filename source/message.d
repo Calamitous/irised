@@ -123,7 +123,7 @@ class Message {
   }
 
   this(JSONValue message_json) {
-    writeln("BEEP!");
+    // writeln("BEEP!");
     assign_required(message_json["data"], message, "message");
     assign_required(message_json["data"], author, "author");
     assign_required(message_json["data"], timestamp, "timestamp");
@@ -145,7 +145,6 @@ class Message {
     //       break;
     //   }
     // }
-
   }
 
   this(string[string] values) {

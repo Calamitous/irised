@@ -7,16 +7,19 @@ class Config {
   string home_root;
   string history_file_name;
   string message_file_name;
+  string executable_file_name;
   string user;
 
-  this() {
+  this(string[] argv) {
     user = fetch_user();
+    executable_file_name = argv[0];
     message_file_name = expandTilde("~/.iris.messages");
     history_file_name = expandTilde("~/.iris.history");
     home_root = fetch_home_root();
   }
 
-  this(string file_name) {
+  this(string file_name, string[] argv) {
+    executable_file_name = argv[0];
     message_file_name = file_name;
     user = fetch_user();
     message_file_name = expandTilde(file_name);

@@ -1,5 +1,6 @@
 import std.algorithm.iteration;
 import std.array;
+import std.conv;
 import std.file;
 import std.json;
 import std.stdio;
@@ -22,19 +23,17 @@ class Corpus {
   }
 
   static Message[] load_file(DirEntry filename) {
-    // START here, figure out why only last message is loading
     string unparsed_json = readText(filename);
     JSONValue parsed_json = parseJSON(unparsed_json);
 
     Message[] messages;
     foreach(message_json; parsed_json.array) {
       Message message = new Message(message_json);
-      writefln("%d", message);
+      // writefln("%d", message);
       messages ~= message;
     }
 
     return messages;
-
   }
 
   this(string home_root) {
@@ -43,11 +42,6 @@ class Corpus {
     foreach(file; find_message_files(home_root)) {
       all_user_messages ~= load_file(file);
     }
-    writeln("all_user_messages:");
-    foreach(m; all_user_messages) {
-      writefln("%d", m);
-    }
-
   }
 }
 

@@ -6,6 +6,7 @@ import clid;
 
 import config;
 import corpus;
+import iris_files;
 import message;
 
 private struct CLIArgs {
@@ -14,34 +15,25 @@ private struct CLIArgs {
   string message_file;
 }
 
-void main()
+void main(string[] argv)
 {
   auto cli_args = parseArguments!CLIArgs();
   Config config;
 
   if (cli_args.message_file.length > 0) {
-    config = new Config(cli_args.message_file);
+    config = new Config(cli_args.message_file, argv);
   } else {
-    config = new Config();
+    config = new Config(argv);
   }
 
   File message_file = load_message_file(config);
   // Corpus.find_message_files(config.home_root);
+  writeln(IrisFiles.check_file_permissions(config));
   Corpus corpus = new Corpus(config.home_root);
   // writeln(corpus.messages);
 
-  auto message_details = [
-    "message": "foo",
-    "author": "bar",
-    "timestamp": "asdfzxcv",
-    "parent_hash": "46A10927",
-    "is_deleted": "bad"
-  ];
-
-  Message message = new Message(message_details);
-  // writefln("%d", message);
   // TODO: Fix this, even though it's handy for testing
-  message.errors = [];
+  // message.errors = [];
   // writefln("%d", message);
 
   writeln("!--- RAN OKAY ---!");
